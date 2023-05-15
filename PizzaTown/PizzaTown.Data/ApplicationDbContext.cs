@@ -18,5 +18,15 @@ namespace PizzaTown.Data
         public DbSet<Meal> Meals { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<Role> Roles { get; set; } = null!;
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("DefaultConnection");
+            }
+
+            base.OnConfiguring(optionsBuilder);
+        }
     }
 }
