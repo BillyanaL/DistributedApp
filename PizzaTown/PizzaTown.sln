@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaTown", "PizzaTown\PizzaTown.csproj", "{24480CC2-B283-4BD5-BA82-5A3CC9FEC437}"
+	ProjectSection(ProjectDependencies) = postProject
+		{57110285-C993-40B4-9C9D-C2E0A96580F6} = {57110285-C993-40B4-9C9D-C2E0A96580F6}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaTown.Data", "PizzaTown.Data\PizzaTown.Data.csproj", "{57110285-C993-40B4-9C9D-C2E0A96580F6}"
 EndProject

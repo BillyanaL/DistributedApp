@@ -18,6 +18,7 @@ namespace PizzaTown.Data
         public DbSet<Meal> Meals { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<Role> Roles { get; set; } = null!;
+        public DbSet<UserMeal> UsersMeals { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -27,6 +28,16 @@ namespace PizzaTown.Data
             }
 
             base.OnConfiguring(optionsBuilder);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserMeal>()
+                .HasKey(x => new
+                {
+                    x.UserId,
+                    x.MealId
+                });
         }
     }
 }
