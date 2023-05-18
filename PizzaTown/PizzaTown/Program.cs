@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PizzaTown.Data;
+using PizzaTown.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,4 +39,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
+app.PrepareDatabase();
 app.Run();
