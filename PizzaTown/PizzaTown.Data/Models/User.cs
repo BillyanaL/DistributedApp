@@ -10,6 +10,6 @@ namespace PizzaTown.Data.Models
 
         public Role Role { get; set; } = null!;
 
-        public IEnumerable<Meal> Cart { get; set; } = new HashSet<Meal>();
+        public IEnumerable<UserMeal> Cart { get; set; } = new HashSet<UserMeal>();
     }
 }
