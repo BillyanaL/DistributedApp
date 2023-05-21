@@ -8,13 +8,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    {
+        options.UseSqlServer(connectionString!);
+        options.EnableSensitiveDataLogging();
+    }
+);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<User>()
+builder.Services.AddIdentity<User, Role>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
-//builder.Services.AddScoped<RoleManager<Role>>();
+builder.Services.AddScoped<RoleManager<Role>>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 

@@ -76,6 +76,25 @@ namespace PizzaTown.Data.Migrations
                     b.ToTable("Meals");
                 });
 
+            modelBuilder.Entity("PizzaTown.Data.Models.Role", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("PizzaTown.Data.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -114,6 +133,10 @@ namespace PizzaTown.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -124,6 +147,8 @@ namespace PizzaTown.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -156,6 +181,17 @@ namespace PizzaTown.Data.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("PizzaTown.Data.Models.User", b =>
+                {
+                    b.HasOne("PizzaTown.Data.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("PizzaTown.Data.Models.UserMeal", b =>

@@ -11,63 +11,57 @@ namespace PizzaTown.Infrastructure
             using var scopedServices = app.ApplicationServices.CreateScope();
             var serviceProvider = scopedServices.ServiceProvider;
 
-            MigrateDatabase(serviceProvider);
+            var dbContext = serviceProvider
+                .GetRequiredService<ApplicationDbContext>();
 
-            //SeedRoles(serviceProvider);
-            SeedAdmin(serviceProvider);
-            SeedCategories(serviceProvider);
+            MigrateDatabase(dbContext);
+            SeedRoles(dbContext);
+            SeedAdmin(dbContext);
+            SeedCategories(dbContext);
 
             return app;
         }
 
-        private static void MigrateDatabase(IServiceProvider serviceProvider)
+        private static void MigrateDatabase(ApplicationDbContext dbContext)
         {
-            var dbContext = serviceProvider
-                .GetRequiredService<ApplicationDbContext>();
             dbContext.Database.Migrate();
         }
 
-        //private static void SeedRoles(IServiceProvider serviceProvider)
-        //{
-        //    var dbContext = serviceProvider
-        //        .GetRequiredService<ApplicationDbContext>();
-
-        //    if (dbContext.Roles.Any())
-        //    {
-        //        return;
-        //    }
-
-        //    dbContext.Roles.AddRange(new[]
-        //    {
-        //        new Role {Id = new Guid().ToString(), Name = "Regular User"},
-        //        new Role {Id = new Guid().ToString(), Name = "Admin"}
-        //    });
-
-        //    dbContext.SaveChanges();
-        //}
-
-        private static void SeedAdmin(IServiceProvider serviceProvider)
+        private static void SeedRoles(ApplicationDbContext dbContext)
         {
-            var dbContext = serviceProvider
-                .GetRequiredService<ApplicationDbContext>();
+            if (dbContext.Roles.Any())
+            {
+                return;
+            }
 
+            dbContext.Roles.AddRange(new[]
+            {
+                new Role {Id = "77fc6a94-02d7-4993-99e4-ca0bf19c2c57", Name = "Regular User"},
+                new Role {Id = "552a17e6-6dc7-4fe0-a7a3-411f9df03011", Name = "Admin"}
+            });
+
+            dbContext.SaveChanges();
+        }
+
+        private static void SeedAdmin(ApplicationDbContext dbContext)
+        {
             if (dbContext.Users.Any())
             {
                 return;
             }
 
-            //var adminRole = dbContext.Roles.FirstOrDefault(x => x.Name == "Admin");
+            var adminRole = dbContext.Roles.FirstOrDefault(x => x.Name == "Admin");
 
-            //if (adminRole == null)
-            //{
-            //    return;
-            //}
+            if (adminRole == null)
+            {
+                return;
+            }
 
             var admin = new User
             {
                 Email = "admin@pizzatown.com",
                 UserName = "admin",
-                //RoleId = Guid.Parse(adminRole.Id),
+                RoleId = adminRole.Id,
                 PasswordHash = "$2y$10$ALZnr8OoNwvDwaWEwH/OBOpAkqZwrdti04vXdiwPDwRx7FrtXhXAW" // raw - admin123@
             };
 
@@ -75,11 +69,8 @@ namespace PizzaTown.Infrastructure
             dbContext.SaveChanges();
         }
 
-        private static void SeedCategories(IServiceProvider serviceProvider)
+        private static void SeedCategories(ApplicationDbContext dbContext)
         {
-            var dbContext = serviceProvider
-                .GetRequiredService<ApplicationDbContext>();
-
             if (dbContext.Categories.Any())
             {
                 return;
