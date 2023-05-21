@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaTown.Data;
@@ -24,11 +23,18 @@ namespace PizzaTown.Controllers
             var meals = await _context.Meals.ToListAsync();
             return View(meals);
         }
-
-        // GET: MealsController/Details/5
-        public ActionResult Details(Guid id)
+        
+        public async Task<ActionResult> Details(Guid id)
         {
-            return View();
+            var meal = await _context.Meals.Include(x => x.Category)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (meal == null)
+            {
+                return NotFound();
+            }
+
+            return View(meal);
         }
 
         // GET: MealsController/Create

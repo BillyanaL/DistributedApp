@@ -28,11 +28,11 @@
             {
                 <div class="col-lg-4 d-flex ftco-animate">
                     <div class="services-wrap d-flex">
-                        <a href="#" class="img" style="background-image: url('@meal.ImageUrl');"></a>
+                        <a asp-controller="Meals" asp-action="Details" asp-route-id="@meal.Id" class="img" style="background-image: url('@meal.ImageUrl');"></a>
                         <div class="text p-4">
                             <h3>@meal.Name</h3>
                             <p>@($"{meal.Description.Substring(0, 150)}...")</p>
-                            <p class="price"><span>$@meal.Price</span> <a href="#" class="ml-2 btn btn-white btn-outline-white">Order</a></p>
+                            <p class="price"><span>$@meal.Price</span> <a asp-controller="Meals" asp-action="Details" asp-route-id="@meal.Id" class="ml-2 btn btn-white btn-outline-white">Order</a></p>
                         </div>
                     </div>
                 </div>

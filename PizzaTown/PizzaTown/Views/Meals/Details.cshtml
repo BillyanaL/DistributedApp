@@ -1,0 +1,19 @@
+﻿@using PizzaTown.Data.Models;
+@model Meal;
+
+<section class="ftco-section ftco-degree-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 ftco-animate">
+                <h2 class="mb-3">@Model.Name</h2>
+                <img src="@Model.ImageUrl" alt="" class="img-fluid">
+                <div class="tag-widget post-tag-container mb-5 mt-5">
+                    <div class="tagcloud">
+                        <a class="tag-cloud-link" style="pointer-events: none;">@Model.Category.Name</a>
+                    </div>
+                </div>
+                <p>@Model.Description</p>
+            </div>
+        </div>
+    </div>
+</section>
