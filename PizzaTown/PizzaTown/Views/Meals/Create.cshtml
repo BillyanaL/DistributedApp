@@ -1,0 +1,47 @@
+﻿@model MealFormModel
+
+<section class="ftco-appointment" style="margin-top: 30px;">
+    <div class="overlay"></div>
+    <div class="container-wrap">
+        <div class="row no-gutters d-md-flex align-items-center">
+            <div class="col-md-12 d-flex align-self-stretch">
+                <div id="map"></div>
+            </div>
+            <div class="col-md-12 appointment ftco-animate">
+                <h3 class="mb-3">Add new meal</h3>
+                <form asp-controller="Meals" asp-action="Create" method="post" class="appointment-form">
+                    <div class="d-md-flex">
+                        <div class="form-group">
+                            <input asp-for="Name" type="text" class="form-control" placeholder="Name">
+                        </div>
+                    </div>
+                    <div class="d-me-flex">
+                        <div class="form-group">
+                            <input asp-for="ImageUrl" type="url" class="form-control" placeholder="Image URL">
+                        </div>
+                    </div>
+                    <div class="d-me-flex">
+                        <div class="form-group">
+                            <input asp-for="Price" type="number" value="" class="form-control" placeholder="Price">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea asp-for="Description" id="" cols="30" rows="3" class="form-control" placeholder="Description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <select asp-for="CategoryId">
+                            <option style="display: none">Select a category...</option>
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Submit" class="btn btn-primary py-3 px-4">
+                    </div>
+                </form>
+            </div>    			
+        </div>
+    </div>
+</section>

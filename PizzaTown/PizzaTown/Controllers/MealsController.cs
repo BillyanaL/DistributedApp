@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaTown.Data;
+using PizzaTown.Models;
 
 namespace PizzaTown.Controllers
 {
@@ -36,11 +37,16 @@ namespace PizzaTown.Controllers
 
             return View(meal);
         }
-
-        // GET: MealsController/Create
-        public ActionResult Create()
+        
+        public async Task<ActionResult> Create()
         {
-            return View();
+            var categories = await _context.Categories.ToListAsync();
+            var mealModel = new MealFormModel()
+            {
+                Categories = categories
+            };
+
+            return View(mealModel);
         }
 
         // POST: MealsController/Create
