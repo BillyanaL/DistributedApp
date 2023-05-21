@@ -13,7 +13,7 @@ namespace PizzaTown.Infrastructure
 
             MigrateDatabase(serviceProvider);
 
-            SeedRoles(serviceProvider);
+            //SeedRoles(serviceProvider);
             SeedAdmin(serviceProvider);
             SeedCategories(serviceProvider);
 
@@ -27,24 +27,24 @@ namespace PizzaTown.Infrastructure
             dbContext.Database.Migrate();
         }
 
-        private static void SeedRoles(IServiceProvider serviceProvider)
-        {
-            var dbContext = serviceProvider
-                .GetRequiredService<ApplicationDbContext>();
+        //private static void SeedRoles(IServiceProvider serviceProvider)
+        //{
+        //    var dbContext = serviceProvider
+        //        .GetRequiredService<ApplicationDbContext>();
 
-            if (dbContext.Roles.Any())
-            {
-                return;
-            }
+        //    if (dbContext.Roles.Any())
+        //    {
+        //        return;
+        //    }
 
-            dbContext.Roles.AddRange(new[]
-            {
-                new Role {Id = new Guid(), Name = "Regular User"},
-                new Role {Id = new Guid(), Name = "Admin"}
-            });
+        //    dbContext.Roles.AddRange(new[]
+        //    {
+        //        new Role {Id = new Guid().ToString(), Name = "Regular User"},
+        //        new Role {Id = new Guid().ToString(), Name = "Admin"}
+        //    });
 
-            dbContext.SaveChanges();
-        }
+        //    dbContext.SaveChanges();
+        //}
 
         private static void SeedAdmin(IServiceProvider serviceProvider)
         {
@@ -56,18 +56,18 @@ namespace PizzaTown.Infrastructure
                 return;
             }
 
-            var adminRole = dbContext.Roles.FirstOrDefault(x => x.Name == "Admin");
+            //var adminRole = dbContext.Roles.FirstOrDefault(x => x.Name == "Admin");
 
-            if (adminRole == null)
-            {
-                return;
-            }
+            //if (adminRole == null)
+            //{
+            //    return;
+            //}
 
             var admin = new User
             {
                 Email = "admin@pizzatown.com",
                 UserName = "admin",
-                RoleId = adminRole.Id,
+                //RoleId = Guid.Parse(adminRole.Id),
                 PasswordHash = "$2y$10$ALZnr8OoNwvDwaWEwH/OBOpAkqZwrdti04vXdiwPDwRx7FrtXhXAW" // raw - admin123@
             };
 

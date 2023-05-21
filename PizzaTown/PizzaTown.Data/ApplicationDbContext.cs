@@ -18,7 +18,6 @@ namespace PizzaTown.Data
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Meal> Meals { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
-        public DbSet<Role> Roles { get; set; } = null!;
         public DbSet<UserMeal> UsersMeals { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

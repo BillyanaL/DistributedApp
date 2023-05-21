@@ -17,7 +17,7 @@ namespace PizzaTown.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -76,22 +76,6 @@ namespace PizzaTown.Data.Migrations
                     b.ToTable("Meals");
                 });
 
-            modelBuilder.Entity("PizzaTown.Data.Models.Role", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
-                });
-
             modelBuilder.Entity("PizzaTown.Data.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -130,9 +114,6 @@ namespace PizzaTown.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -143,8 +124,6 @@ namespace PizzaTown.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -177,17 +156,6 @@ namespace PizzaTown.Data.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("PizzaTown.Data.Models.User", b =>
-                {
-                    b.HasOne("PizzaTown.Data.Models.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("PizzaTown.Data.Models.UserMeal", b =>

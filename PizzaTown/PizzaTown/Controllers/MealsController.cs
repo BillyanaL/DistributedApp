@@ -1,18 +1,32 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PizzaTown.Data;
 
 namespace PizzaTown.Controllers
 {
     public class MealsController : Controller
     {
-        // GET: MealsController
-        public ActionResult Index()
+        private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly AutoMapper.IConfigurationProvider _configuration;
+
+        public MealsController(ApplicationDbContext context, IMapper mapper)
         {
-            return View();
+            _context = context;
+            _mapper = mapper;
+            _configuration = mapper.ConfigurationProvider;
+        }
+        
+        public async Task<ActionResult> Index()
+        {
+            var meals = await _context.Meals.ToListAsync();
+            return View(meals);
         }
 
         // GET: MealsController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(Guid id)
         {
             return View();
         }

@@ -11,16 +11,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services
-    .AddDefaultIdentity<User>(options =>
-        {
-            options.SignIn.RequireConfirmedAccount = true;
-        }
-
-    )
-    .AddRoles<Role>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddDefaultIdentity<User>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+//builder.Services.AddScoped<RoleManager<Role>>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
