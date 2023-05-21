@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PizzaTown.Data;
 using PizzaTown.Data.Models;
 using PizzaTown.Infrastructure;
+using PizzaTown.MappingConfiguration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ builder.Services.AddIdentity<User, Role>()
 builder.Services.AddScoped<RoleManager<Role>>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 
