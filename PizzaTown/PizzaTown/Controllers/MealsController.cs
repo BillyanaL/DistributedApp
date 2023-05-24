@@ -74,9 +74,8 @@ namespace PizzaTown.Controllers
 
             return RedirectToAction(nameof(Details), new {id = meal.Id});
         }
-
-        // GET: MealsController/Edit/5
-        public ActionResult Edit(int id)
+        
+        public ActionResult Edit(Guid id)
         {
             return View();
         }
