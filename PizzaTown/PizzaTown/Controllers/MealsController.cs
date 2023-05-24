@@ -42,7 +42,7 @@ namespace PizzaTown.Controllers
         public async Task<ActionResult> Create()
         {
             var categories = await _context.Categories.ToListAsync();
-            var mealModel = new MealFormModel()
+            var mealModel = new MealFormModel
             {
                 Categories = categories
             };
@@ -75,9 +75,28 @@ namespace PizzaTown.Controllers
             return RedirectToAction(nameof(Details), new {id = meal.Id});
         }
         
-        public ActionResult Edit(Guid id)
+        public async Task<ActionResult> Edit(Guid id)
         {
-            return View();
+            var meal = await _context.Meals.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (meal == null)
+            {
+                return NotFound();
+            }
+
+            var categories = await _context.Categories.ToListAsync();
+
+            var mealFormModel = new MealFormModel
+            {
+                Name = meal.Name,
+                Description = meal.Description,
+                ImageUrl = meal.ImageUrl,
+                CategoryId = meal.CategoryId,
+                Price = meal.Price,
+                Categories = categories
+            };
+
+            return View(nameof(Create), mealFormModel);
         }
 
         // POST: MealsController/Edit/5

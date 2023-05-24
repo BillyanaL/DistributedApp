@@ -1,4 +1,5 @@
-﻿@model MealFormModel
+﻿@using PizzaTown.Data;
+@model MealFormModel;
 
 <section class="ftco-appointment" style="margin-top: 30px;">
     <div class="overlay"></div>
@@ -8,28 +9,28 @@
                 <div id="map"></div>
             </div>
             <div class="col-md-12 appointment ftco-animate">
-                <h3 class="mb-3">Add new meal</h3>
-                <form asp-controller="Meals" asp-action="Create" method="post" class="appointment-form">
+                <h3 class="mb-3">@(Model.Name != string.Empty ? $"Edit {Model.Name}" : "Add New Meal")</h3>
+                <form asp-controller="Meals" asp-action=@(Model.Name != string.Empty ? "Edit": "Create") method="post" class="appointment-form">
                     <div class="d-md-flex">
                         <div class="form-group">
-                            <input asp-for="Name" type="text" class="form-control" placeholder="Name">
+                            <input asp-for="Name" type="text" class="form-control" placeholder="Name" value="@Model.Name" />
                         </div>
                     </div>
                     <div class="d-me-flex">
                         <div class="form-group">
-                            <input asp-for="ImageUrl" type="url" class="form-control" placeholder="Image URL">
+                            <input asp-for="ImageUrl" type="url" class="form-control" placeholder="Image URL" value="@Model.ImageUrl" />
                         </div>
                     </div>
                     <div class="d-me-flex">
                         <div class="form-group">
-                            <input asp-for="Price" type="number" value="" class="form-control" placeholder="Price">
+                            <input asp-for="Price" type="number" class="form-control" placeholder="Price" value="@Model.Price">
                         </div>
                     </div>
                     <div class="form-group">
-                        <textarea asp-for="Description" id="" cols="30" rows="3" class="form-control" placeholder="Description"></textarea>
+                        <textarea asp-for="Description" id="" cols="30" rows="3" class="form-control" placeholder="Description">@Model.Description</textarea>
                     </div>
                     <div class="form-group">
-                        <select asp-for="CategoryId">
+                        <select asp-for="CategoryId" selected="@Model.Categories.FirstOrDefault(x => x.Id == Model.CategoryId)">
                             <option style="display: none">Select a category...</option>
                             @foreach (var category in Model.Categories)
                             {
@@ -41,7 +42,7 @@
                         <input type="submit" value="Submit" class="btn btn-primary py-3 px-4">
                     </div>
                 </form>
-            </div>    			
+            </div>
         </div>
     </div>
 </section>
