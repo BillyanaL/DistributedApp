@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaTown.Data;
+using PizzaTown.Data.Models;
 using PizzaTown.Models;
 
 namespace PizzaTown.Controllers
@@ -48,20 +49,30 @@ namespace PizzaTown.Controllers
 
             return View(mealModel);
         }
-
-        // POST: MealsController/Create
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create([Bind("Name, ImageUrl, Description, CategoryId, Price")] MealFormModel model)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                return BadRequest();
             }
-            catch
+
+            var meal = new Meal
             {
-                return View();
-            }
+                Id = new Guid(),
+                Name = model.Name,
+                Description = model.Description,
+                CategoryId = model.CategoryId,
+                ImageUrl = model.ImageUrl,
+                Price = model.Price
+            };
+
+            await _context.Meals.AddAsync(meal);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new {id = meal.Id});
         }
 
         // GET: MealsController/Edit/5
