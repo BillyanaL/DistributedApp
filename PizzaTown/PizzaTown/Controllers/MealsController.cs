@@ -4,32 +4,34 @@ using Microsoft.EntityFrameworkCore;
 using PizzaTown.Data;
 using PizzaTown.Data.Models;
 using PizzaTown.Models;
+using PizzaTown.Services;
 
 namespace PizzaTown.Controllers
 {
     public class MealsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly MealService _mealService;
         private readonly IMapper _mapper;
         private readonly AutoMapper.IConfigurationProvider _configuration;
 
-        public MealsController(ApplicationDbContext context, IMapper mapper)
+        public MealsController(ApplicationDbContext context, IMapper mapper, MealService mealService)
         {
             _context = context;
             _mapper = mapper;
             _configuration = mapper.ConfigurationProvider;
+            _mealService = mealService;
         }
 
         public async Task<ActionResult> Index()
         {
-            var meals = await _context.Meals.ToListAsync();
+            var meals = await _mealService.GetAll();
             return View(meals);
         }
 
         public async Task<ActionResult> Details(Guid id)
         {
-            var meal = await _context.Meals.Include(x => x.Category)
-                .FirstOrDefaultAsync(x => x.Id == id);
+            var meal = await _mealService.GetById(id);
 
             if (meal == null)
             {
@@ -59,20 +61,10 @@ namespace PizzaTown.Controllers
                 return BadRequest();
             }
 
-            var meal = new Meal
-            {
-                Id = new Guid(),
-                Name = model.Name,
-                Description = model.Description,
-                CategoryId = model.CategoryId,
-                ImageUrl = model.ImageUrl,
-                Price = model.Price
-            };
+            var mealId = await _mealService.Create(model.Name, model.Description, model.ImageUrl, model.CategoryId,
+                model.Price);
 
-            await _context.Meals.AddAsync(meal);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Details), new { id = meal.Id });
+            return RedirectToAction(nameof(Details), new { id = mealId });
         }
 
         public async Task<ActionResult> Edit(Guid id)

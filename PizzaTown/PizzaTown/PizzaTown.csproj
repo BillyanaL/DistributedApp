@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PizzaTown.Data\PizzaTown.Data.csproj" />
+    <ProjectReference Include="..\PizzaTown.Services\PizzaTown.Services.csproj" />
   </ItemGroup>
 
 </Project>
