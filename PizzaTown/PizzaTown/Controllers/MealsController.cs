@@ -125,11 +125,23 @@ namespace PizzaTown.Controllers
 
             return RedirectToAction(nameof(Details), new { id = meal.Id });
         }
-
-        // GET: MealsController/Delete/5
-        public ActionResult Delete(int id)
+        
+        public ActionResult Delete(Guid id)
         {
-            return View();
+            var meal = _context.Meals.FirstOrDefault(x => x.Id == id);
+
+            if (meal == null)
+            {
+                return NotFound();
+            }
+
+            var mealDeleteModel = new MealDeleteModel
+            {
+                Id = meal.Id,
+                Name = meal.Name
+            };
+
+            return View(mealDeleteModel);
         }
 
         // POST: MealsController/Delete/5

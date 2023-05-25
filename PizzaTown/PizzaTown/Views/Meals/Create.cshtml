@@ -1,6 +1,10 @@
 ﻿@using PizzaTown.Data;
 @model MealFormModel;
 
+@{
+    var currentPath = Context.Request.Path.ToString();
+}
+
 <section class="ftco-appointment" style="margin-top: 30px;">
     <div class="overlay"></div>
     <div class="container-wrap">
@@ -9,7 +13,7 @@
                 <div id="map"></div>
             </div>
             <div class="col-md-12 appointment ftco-animate">
-                <h3 class="mb-3">@(Model.Name != string.Empty ? $"Edit {Model.Name}" : "Add New Meal")</h3>
+                <h3 class="mb-3">@(currentPath.Contains("Edit") ? $"Edit {Model.Name}" : "Add New Meal")</h3>
                 <form asp-controller="Meals" asp-action=@(Model.Name != string.Empty ? "Edit": "Create") method="post" class="appointment-form">
                     <div class="d-md-flex">
                         <div class="form-group">
