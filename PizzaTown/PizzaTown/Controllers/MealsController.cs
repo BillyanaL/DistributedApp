@@ -126,37 +126,18 @@ namespace PizzaTown.Controllers
             return RedirectToAction(nameof(Details), new { id = meal.Id });
         }
         
-        public ActionResult Delete(Guid id)
+        public async Task<ActionResult> Delete(Guid id)
         {
-            var meal = _context.Meals.FirstOrDefault(x => x.Id == id);
+            var meal = await _context.Meals.FirstOrDefaultAsync(x => x.Id == id);
 
             if (meal == null)
             {
                 return NotFound();
             }
 
-            var mealDeleteModel = new MealDeleteModel
-            {
-                Id = meal.Id,
-                Name = meal.Name
-            };
-
-            return View(mealDeleteModel);
-        }
-
-        // POST: MealsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _context.Meals.Remove(meal);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

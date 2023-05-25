@@ -1,25 +1,11 @@
 ﻿@model MealDeleteModel;
 
-<div id="myModal" class="modal fade">
-    <div class="modal-dialog modal-confirm">
-        <div class="modal-content">
-            <div class="modal-header flex-column">
-                <div class="icon-box">
-                    <i class="material-icons">&#xE5CD;</i>
-                </div>						
-                <h4 class="modal-title w-100">Are you sure?</h4>	
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Do you really want to delete @Model.Name? This process cannot be undone.</p>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <form asp-action="Delete">
-                    <input type="hidden" asp-for="Id"/>
-                    <input type="submit" value="Delete" class="btn btn-danger" /> |
-                    <a asp-action="Index">Back to List</a>
-                </form>
-            </div>
+<div class="deletePopUpContainer">
+    <div class="deletePopUp">
+        <div class="cookiesContent" id="cookiesPopup">
+            <img src="https://cdn-icons-png.flaticon.com/512/1047/1047711.png" alt="cookies-img" />
+            <p>We use cookies for improving user experience, analytics and marketing.</p>
+            <button class="accept">That's fine!</button>
         </div>
     </div>
 </div>

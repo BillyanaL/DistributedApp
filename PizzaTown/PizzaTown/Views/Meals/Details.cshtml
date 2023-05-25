@@ -16,6 +16,6 @@
             </div>
         </div>
         <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
-        <a asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
+        <a style="color: white !important; "id="deleteMealBtn" class="btn btn-danger" data-id="@Model!.Id" data-controller="Meals" data-action="Delete" data-body-message="@($"Are you sure you want to delete {Model.Name}?")" data-redirect-url="@("/Meals/Index")"><i class="fa fa-trash"></i> Delete</a>
     </div>
 </section>
