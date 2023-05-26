@@ -44,5 +44,25 @@ namespace PizzaTown.Services
 
             return meal.Id;
         }
+
+        public async Task<Guid> Edit(Meal meal, string name, string description, string imageUrl, Guid categoryId,
+            decimal price)
+        {
+            meal.Name = name;
+            meal.Description = description;
+            meal.ImageUrl = imageUrl;
+            meal.CategoryId = categoryId;
+            meal.Price = price;
+
+            await _context.SaveChangesAsync();
+            return meal.Id;
+        }
+
+        public async Task<bool> Delete(Meal meal)
+        {
+            _context.Meals.Remove(meal);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

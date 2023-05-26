@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PizzaTown.Data;
-using PizzaTown.Data.Models;
 using PizzaTown.Models;
 using PizzaTown.Services;
 
@@ -10,17 +7,17 @@ namespace PizzaTown.Controllers
 {
     public class MealsController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly MealService _mealService;
+        private readonly CategoryService _categoryService;
         private readonly IMapper _mapper;
         private readonly AutoMapper.IConfigurationProvider _configuration;
 
-        public MealsController(ApplicationDbContext context, IMapper mapper, MealService mealService)
+        public MealsController(IMapper mapper, MealService mealService, CategoryService categoryService)
         {
-            _context = context;
             _mapper = mapper;
             _configuration = mapper.ConfigurationProvider;
             _mealService = mealService;
+            _categoryService = categoryService;
         }
 
         public async Task<ActionResult> Index()
@@ -43,7 +40,7 @@ namespace PizzaTown.Controllers
 
         public async Task<ActionResult> Create()
         {
-            var categories = await _context.Categories.ToListAsync();
+            var categories = await _categoryService.GetAll();
             var mealModel = new MealFormModel
             {
                 Categories = categories
@@ -69,15 +66,16 @@ namespace PizzaTown.Controllers
 
         public async Task<ActionResult> Edit(Guid id)
         {
-            var meal = await _context.Meals.FirstOrDefaultAsync(x => x.Id == id);
+            var meal = await _mealService.GetById(id);
 
             if (meal == null)
             {
                 return NotFound();
             }
 
-            var categories = await _context.Categories.ToListAsync();
+            var categories = await _categoryService.GetAll();
 
+            // mapper
             var mealFormModel = new MealFormModel
             {
                 Name = meal.Name,
@@ -100,35 +98,28 @@ namespace PizzaTown.Controllers
                 return View(nameof(Create), model);
             }
 
-            var meal = await _context.Meals.FirstOrDefaultAsync(x => x.Id == id);
+            var meal = await _mealService.GetById(id);
 
             if (meal == null)
             {
                 return NotFound();
             }
 
-            meal.Name = model.Name;
-            meal.Description = model.Description;
-            meal.ImageUrl = model.ImageUrl;
-            meal.CategoryId = model.CategoryId;
-            meal.Price = model.Price;
+            await _mealService.Edit(meal, model.Name, model.Description, model.ImageUrl, model.CategoryId, model.Price);
             
-            await _context.SaveChangesAsync();
-
             return RedirectToAction(nameof(Details), new { id = meal.Id });
         }
         
         public async Task<ActionResult> Delete(Guid id)
         {
-            var meal = await _context.Meals.FirstOrDefaultAsync(x => x.Id == id);
+            var meal = await _mealService.GetById(id);
 
             if (meal == null)
             {
                 return NotFound();
             }
 
-            _context.Meals.Remove(meal);
-            await _context.SaveChangesAsync();
+            await _mealService.Delete(meal);
             return RedirectToAction(nameof(Index));
         }
     }
