@@ -4,6 +4,7 @@ using PizzaTown.Data;
 using PizzaTown.Data.Models;
 using PizzaTown.Infrastructure;
 using PizzaTown.MappingConfiguration;
+using PizzaTown.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,9 @@ builder.Services.AddScoped<RoleManager<Role>>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+builder.Services.AddScoped<MealService>();
+builder.Services.AddScoped<CategoryService>();
 
 var app = builder.Build();
 

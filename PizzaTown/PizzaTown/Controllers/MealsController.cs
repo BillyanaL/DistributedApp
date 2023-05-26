@@ -32,7 +32,7 @@ namespace PizzaTown.Controllers
 
             if (meal == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Index));
             }
 
             return View(meal);
