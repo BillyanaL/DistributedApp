@@ -1,21 +1,21 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PizzaTown.Models;
 using PizzaTown.Services;
 
 namespace PizzaTown.Controllers
 {
+    [Authorize]
     public class MealsController : Controller
     {
         private readonly MealService _mealService;
         private readonly CategoryService _categoryService;
         private readonly IMapper _mapper;
-        private readonly AutoMapper.IConfigurationProvider _configuration;
 
         public MealsController(IMapper mapper, MealService mealService, CategoryService categoryService)
         {
             _mapper = mapper;
-            _configuration = mapper.ConfigurationProvider;
             _mealService = mealService;
             _categoryService = categoryService;
         }
@@ -74,17 +74,8 @@ namespace PizzaTown.Controllers
             }
 
             var categories = await _categoryService.GetAll();
-
-            // mapper
-            var mealFormModel = new MealFormModel
-            {
-                Name = meal.Name,
-                Description = meal.Description,
-                ImageUrl = meal.ImageUrl,
-                CategoryId = meal.CategoryId,
-                Price = meal.Price,
-                Categories = categories
-            };
+            var mealFormModel = _mapper.Map<MealFormModel>(meal);
+            mealFormModel.Categories = categories;
 
             return View(nameof(Create), mealFormModel);
         }
