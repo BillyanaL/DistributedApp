@@ -8,9 +8,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaTown", "PizzaTown\Pizz
 		{57110285-C993-40B4-9C9D-C2E0A96580F6} = {57110285-C993-40B4-9C9D-C2E0A96580F6}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaTown.Data", "PizzaTown.Data\PizzaTown.Data.csproj", "{57110285-C993-40B4-9C9D-C2E0A96580F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaTown.Data", "PizzaTown.Data\PizzaTown.Data.csproj", "{57110285-C993-40B4-9C9D-C2E0A96580F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaTown.Services", "PizzaTown.Services\PizzaTown.Services.csproj", "{D9EE1AD8-F219-4B9B-9273-4F7D272EC7F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaTown.Services", "PizzaTown.Services\PizzaTown.Services.csproj", "{D9EE1AD8-F219-4B9B-9273-4F7D272EC7F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

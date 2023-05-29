@@ -6,7 +6,7 @@ namespace PizzaTown.Services
 {
     public class MealService
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public MealService(ApplicationDbContext context)
         {

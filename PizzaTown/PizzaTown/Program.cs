@@ -18,10 +18,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 );
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddIdentity<User, Role>()
+builder.Services.AddDefaultIdentity<IdentityUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
-builder.Services.AddScoped<RoleManager<Role>>();
+//builder.Services.AddScoped<RoleManager<Role>>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
