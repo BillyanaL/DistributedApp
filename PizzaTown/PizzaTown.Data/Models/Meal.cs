@@ -20,7 +20,8 @@ namespace PizzaTown.Data.Models
 
         public Category Category { get; set; } = null!;
 
-        [Required] 
+
+        [Required]
         public string AuthorId { get; set; } = null!;
 
         public IdentityUser Author { get; set; } = null!;
