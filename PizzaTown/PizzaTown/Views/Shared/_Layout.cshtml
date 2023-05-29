@@ -55,7 +55,7 @@
                     else
                     {
                         <li class="nav-item @(currentPath.Contains("Login") ? "active" : "")"><a asp-area="Identity" asp-page="/Account/Login" class="nav-link">Login</a></li>
-                        <li class="nav-item @(currentPath.Contains("Login") ? "active" : "")"><a asp-area="Identity" asp-page="/Account/Register" class="nav-link">Register</a></li>
+                        <li class="nav-item @(currentPath.Contains("Register") ? "active" : "")"><a asp-area="Identity" asp-page="/Account/Register" class="nav-link">Register</a></li>
                     }
                 </ul>
             </div>
