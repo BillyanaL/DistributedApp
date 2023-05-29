@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PizzaTown.Infrastructure;
 using PizzaTown.Models;
 using PizzaTown.Services;
 
@@ -58,8 +59,9 @@ namespace PizzaTown.Controllers
                 return BadRequest();
             }
 
+            var userId = this.User.GetId();
             var mealId = await _mealService.Create(model.Name, model.Description, model.ImageUrl, model.CategoryId,
-                model.Price);
+                model.Price, userId!);
 
             return RedirectToAction(nameof(Details), new { id = mealId });
         }

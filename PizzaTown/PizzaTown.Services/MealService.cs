@@ -27,7 +27,7 @@ namespace PizzaTown.Services
             return meal;
         }
 
-        public async Task<Guid> Create(string name, string description, string imageUrl, Guid categoryId, decimal price)
+        public async Task<Guid> Create(string name, string description, string imageUrl, Guid categoryId, decimal price, string authorId)
         {
             var meal = new Meal
             {
@@ -36,7 +36,8 @@ namespace PizzaTown.Services
                 Description = description,
                 CategoryId = categoryId,
                 ImageUrl = imageUrl,
-                Price = price
+                Price = price,
+                AuthorId = authorId
             };
 
             await _context.Meals.AddAsync(meal);
