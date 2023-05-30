@@ -24,7 +24,8 @@ namespace PizzaTown.Services
             else
             {
                 meals = await _context.Meals
-                    .Where(m => string.Equals(m.Category.Name, category, StringComparison.CurrentCultureIgnoreCase))
+                    .Include(m => m.Category)
+                    .Where(m => m.Category.Name.ToLower() == category.ToLower())
                     .ToListAsync();
             }
 
