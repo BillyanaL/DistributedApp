@@ -21,9 +21,9 @@ namespace PizzaTown.Controllers
             _categoryService = categoryService;
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index([FromQuery]string? category)
         {
-            var meals = await _mealService.GetAll();
+            var meals = await _mealService.GetAll(category);
             return View(meals);
         }
 

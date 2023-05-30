@@ -13,9 +13,21 @@ namespace PizzaTown.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Meal>> GetAll()
+        public async Task<IEnumerable<Meal>> GetAll(string? category)
         {
-            var meals = await _context.Meals.ToListAsync();
+            List<Meal> meals;
+
+            if (category == null)
+            {
+                meals = await _context.Meals.ToListAsync();
+            }
+            else
+            {
+                meals = await _context.Meals
+                    .Where(m => string.Equals(m.Category.Name, category, StringComparison.CurrentCultureIgnoreCase))
+                    .ToListAsync();
+            }
+
             return meals;
         }
 
