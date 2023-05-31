@@ -25,7 +25,7 @@ namespace PizzaTown.Controllers
         public async Task<ActionResult> Index([FromQuery]string? category, int pageIndex = 1)
         {
             var meals = await _mealService.GetAll(category);
-            var paginatedMeals = PaginatedList<Meal>.Create(meals, pageIndex, 5);
+            var paginatedMeals = PaginatedList<Meal>.Create(meals, pageIndex, 6);
             return View(paginatedMeals);
         }
 

@@ -3,7 +3,8 @@
 @model PaginatedList<Meal>
 
 @{
-    var queryString = Context.Request.QueryString;
+    var queryString = Context.Request.QueryString.ToString();
+    var category = queryString != string.Empty ? queryString.Split("=")[1] : string.Empty;
 }
 
 <section class="ftco-section">
@@ -14,12 +15,12 @@
             </div>
             <div class="col-md-12 nav-link-wrap mb-5">
                 <div class="nav ftco-animate nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link @(queryString == QueryString.Empty ? "active" : "")" id="v-pills-0-tab" asp-controller="Meals" asp-action="Index" role="tab" aria-controls="v-pills-0" aria-selected="true">All</a>
-                    <a class="nav-link @(queryString.ToString().Contains("pizza") ? "active" : "")" id="v-pills-1-tab" asp-controller="Meals" asp-action="Index" asp-route-category="pizza" role="tab" aria-controls="v-pills-1" aria-selected="false">Pizza</a>
-                    <a class="nav-link @(queryString.ToString().Contains("drinks") ? "active" : "")" id="v-pills-2-tab" asp-controller="Meals" asp-action="Index" asp-route-category="drinks" role="tab" aria-controls="v-pills-2" aria-selected="false">Drinks</a>
-                    <a class="nav-link @(queryString.ToString().Contains("burger") ? "active" : "")" id="v-pills-3-tab" asp-controller="Meals" asp-action="Index" asp-route-category="burger" role="tab" aria-controls="v-pills-3" aria-selected="false">Burgers</a>
-                    <a class="nav-link @(queryString.ToString().Contains("pasta") ? "active" : "")" id="v-pills-4-tab" asp-controller="Meals" asp-action="Index" asp-route-category="pasta" role="tab" aria-controls="v-pills-4" aria-selected="false">Pasta</a>
-                    <a class="nav-link @(queryString.ToString().Contains("desserts") ? "active" : "")" id="v-pills-5-tab" asp-controller="Meals" asp-action="Index" asp-route-category="desserts" role="tab" aria-controls="v-pills-4" aria-selected="false">Desserts</a>
+                    <a class="nav-link @(category == string.Empty ? "active" : "")" id="v-pills-0-tab" asp-controller="Meals" asp-action="Index" role="tab" aria-controls="v-pills-0" aria-selected="true">All</a>
+                    <a class="nav-link @(category == "pizza" ? "active" : "")" id="v-pills-1-tab" asp-controller="Meals" asp-action="Index" asp-route-category="pizza" role="tab" aria-controls="v-pills-1" aria-selected="false">Pizza</a>
+                    <a class="nav-link @(category == "drinks" ? "active" : "")" id="v-pills-2-tab" asp-controller="Meals" asp-action="Index" asp-route-category="drinks" role="tab" aria-controls="v-pills-2" aria-selected="false">Drinks</a>
+                    <a class="nav-link @(category == "burger" ? "active" : "")" id="v-pills-3-tab" asp-controller="Meals" asp-action="Index" asp-route-category="burger" role="tab" aria-controls="v-pills-3" aria-selected="false">Burgers</a>
+                    <a class="nav-link @(category == "pasta" ? "active" : "")" id="v-pills-4-tab" asp-controller="Meals" asp-action="Index" asp-route-category="pasta" role="tab" aria-controls="v-pills-4" aria-selected="false">Pasta</a>
+                    <a class="nav-link @(category == "desserts" ? "active" : "")" id="v-pills-5-tab" asp-controller="Meals" asp-action="Index" asp-route-category="desserts" role="tab" aria-controls="v-pills-4" aria-selected="false">Desserts</a>
                 </div>
             </div>
         </div>
@@ -52,7 +53,7 @@
                         {
                             <li>
                                 <a asp-controller="Meals" asp-action="Index"
-                           asp-route-category="@null"
+                           asp-route-category="@category"
                            asp-route-pageIndex="@(Model.PageIndex - 1)">&lt;</a>
                             </li>
                         }
@@ -61,7 +62,7 @@
                         {
                             <li>
                                 <a asp-controller="Meals" asp-action="Index"
-                           asp-route-category="@null"
+                           asp-route-category="@category"
                            asp-route-pageIndex="@i">@i</a>
                             </li>
                         }
@@ -70,7 +71,7 @@
                         {
                             <li>
                                 <a asp-controller="Meals" asp-action="Index"
-                           asp-route-category="@null"
+                           asp-route-category="@category"
                            asp-route-pageIndex="@(Model.PageIndex + 1)">&gt;</a>
                             </li>
                         }
