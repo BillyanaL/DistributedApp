@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PizzaTown.Data.Models;
 using PizzaTown.Infrastructure;
 using PizzaTown.Models;
 using PizzaTown.Services;
@@ -21,10 +22,11 @@ namespace PizzaTown.Controllers
             _categoryService = categoryService;
         }
 
-        public async Task<ActionResult> Index([FromQuery]string? category)
+        public async Task<ActionResult> Index([FromQuery]string? category, int pageIndex = 1)
         {
             var meals = await _mealService.GetAll(category);
-            return View(meals);
+            var paginatedMeals = PaginatedList<Meal>.Create(meals, pageIndex, 5);
+            return View(paginatedMeals);
         }
 
         public async Task<ActionResult> Details(Guid id)

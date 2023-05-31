@@ -1,6 +1,6 @@
 ﻿@using PizzaTown.Data.Models;
 
-@model IEnumerable<Meal>
+@model PaginatedList<Meal>
 
 @{
     var queryString = Context.Request.QueryString;
@@ -41,4 +41,44 @@
             }
         </div>
     </div>
+
+    @if (Model.Any())
+    {
+        <div class="row mt-5">
+            <div class="col text-center">
+                <div class="block-27">
+                    <ul>
+                        @if (Model.PreviousPage)
+                        {
+                            <li>
+                                <a asp-controller="Meals" asp-action="Index"
+                           asp-route-category="@null"
+                           asp-route-pageIndex="@(Model.PageIndex - 1)">&lt;</a>
+                            </li>
+                        }
+
+                        @for (var i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <li>
+                                <a asp-controller="Meals" asp-action="Index"
+                           asp-route-category="@null"
+                           asp-route-pageIndex="@i">@i</a>
+                            </li>
+                        }
+
+                        @if (Model.NextPage)
+                        {
+                            <li>
+                                <a asp-controller="Meals" asp-action="Index"
+                           asp-route-category="@null"
+                           asp-route-pageIndex="@(Model.PageIndex + 1)">&gt;</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    }
+
 </section>
