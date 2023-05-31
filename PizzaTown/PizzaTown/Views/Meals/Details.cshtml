@@ -1,5 +1,5 @@
-﻿@using PizzaTown.Data.Models;
-@model Meal;
+﻿@using PizzaTown.Models.Meals;
+@model MealDetailedModel;
 
 <section class="ftco-section ftco-degree-bg">
     <div class="container">
@@ -9,13 +9,13 @@
                 <img src="@Model.ImageUrl" alt="" class="img-fluid">
                 <div class="tag-widget post-tag-container mb-5 mt-5">
                     <div class="tagcloud">
-                        <a class="tag-cloud-link" style="pointer-events: none;">@Model.Category.Name</a>
+                        <a class="tag-cloud-link" style="pointer-events: none;">@Model.CategoryName</a>
                     </div>
                 </div>
                 <p>@Model.Description</p>
             </div>
         </div>
-        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
-        <a style="color: white !important; "id="deleteMealBtn" class="btn btn-danger" data-id="@Model!.Id" data-controller="Meals" data-action="Delete" data-body-message="@($"Are you sure you want to delete {Model.Name}?")" data-redirect-url="@("/Meals/Index")"><i class="fa fa-trash"></i> Delete</a>
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Edit</a>
+        <a style="color: white !important; "id="deleteMealBtn" class="btn btn-danger" data-id="@Model!.Id" data-controller="Meals" data-action="Delete" data-body-message="@($"Are you sure you want to delete {Model.Name}?")" data-redirect-url="@("/Meals/Index")">Delete</a>
     </div>
 </section>

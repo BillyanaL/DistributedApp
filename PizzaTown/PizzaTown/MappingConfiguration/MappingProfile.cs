@@ -12,6 +12,9 @@ namespace PizzaTown.MappingConfiguration
                 .ReverseMap();
             CreateMap<Meal, MealListingModel>()
                 .ReverseMap();
+            CreateMap<Meal, MealDetailedModel>()
+                .ForMember(m => m.CategoryName, cfg => cfg.MapFrom(x => x.Category.Name))
+                .ReverseMap();
         }
     }
 }
