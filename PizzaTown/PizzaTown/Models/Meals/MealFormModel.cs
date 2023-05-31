@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using PizzaTown.Data.Models;
 
-namespace PizzaTown.Models
+namespace PizzaTown.Models.Meals
 {
     public class MealFormModel
     {
@@ -13,8 +13,8 @@ namespace PizzaTown.Models
         [StringLength(2000, MinimumLength = 20)]
         public string Description { get; set; } = null!;
 
-        [Required] 
-        [Url] 
+        [Required]
+        [Url]
         public string ImageUrl { get; set; } = null!;
 
         public decimal Price { get; set; }

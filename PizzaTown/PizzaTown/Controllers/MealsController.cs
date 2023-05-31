@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PizzaTown.Data.Models;
 using PizzaTown.Infrastructure;
 using PizzaTown.Models;
+using PizzaTown.Models.Meals;
 using PizzaTown.Services;
 
 namespace PizzaTown.Controllers
@@ -25,7 +26,8 @@ namespace PizzaTown.Controllers
         public async Task<ActionResult> Index([FromQuery]string? category, int pageIndex = 1)
         {
             var meals = await _mealService.GetAll(category);
-            var paginatedMeals = PaginatedList<Meal>.Create(meals, pageIndex, 6);
+            var mealListModels = _mapper.Map<IEnumerable<MealListingModel>>(meals);
+            var paginatedMeals = PaginatedList<MealListingModel>.Create(mealListModels, pageIndex, 6);
             return View(paginatedMeals);
         }
 

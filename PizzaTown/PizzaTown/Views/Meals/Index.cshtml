@@ -1,6 +1,6 @@
-﻿@using PizzaTown.Data.Models;
+﻿@using PizzaTown.Models.Meals;
 
-@model PaginatedList<Meal>
+@model PaginatedList<MealListingModel>
 
 @{
     var queryString = Context.Request.QueryString.ToString();
@@ -35,7 +35,7 @@
                         <div class="text p-4">
                             <h3>@meal.Name</h3>
                             <p>@(meal.Description.Length > 150 ? $"{meal.Description.Substring(0, 150)}..." : meal.Description)</p>
-                            <p class="price"><span>$@meal.Price</span> <a asp-controller="Meals" asp-action="Details" asp-route-id="@meal.Id" class="ml-2 btn btn-white btn-outline-white">Order</a></p>
+                            <p class="price"><span>$@meal.Price</span> <a asp-controller="Meals" asp-action="Details" asp-route-id="@meal.Id" class="ml-2 btn btn-white btn-outline-white">Review</a></p>
                         </div>
                     </div>
                 </div>

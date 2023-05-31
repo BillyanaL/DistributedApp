@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using PizzaTown.Data.Models;
-using PizzaTown.Models;
+using PizzaTown.Models.Meals;
 
 namespace PizzaTown.MappingConfiguration
 {
@@ -9,6 +9,8 @@ namespace PizzaTown.MappingConfiguration
         public MappingProfile()
         {
             CreateMap<Meal, MealFormModel>()
+                .ReverseMap();
+            CreateMap<Meal, MealListingModel>()
                 .ReverseMap();
         }
     }
