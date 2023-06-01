@@ -9,6 +9,7 @@ namespace PizzaTown.Data.Models
         [Required] 
         public string ImageUrl { get; set; } = null!;
 
+        [Range(MinPrice, MaxPrice)]
         public decimal Price { get; set; }
 
         [Required] 
