@@ -4,7 +4,7 @@
 
 @{
     var queryString = Context.Request.QueryString.ToString();
-    var category = queryString != string.Empty ? queryString.Split("=")[1] : string.Empty;
+    var category = queryString != string.Empty && queryString.Contains("category") ? queryString.Split("=")[1] : string.Empty;
 }
 
 <section class="ftco-section">
