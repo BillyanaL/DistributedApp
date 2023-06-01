@@ -1,4 +1,5 @@
 ﻿@using PizzaTown.Models.Meals;
+@using PizzaTown.Infrastructure
 @model MealDetailedModel;
 
 <section class="ftco-section ftco-degree-bg">
@@ -15,7 +16,10 @@
                 <p>@Model.Description</p>
             </div>
         </div>
-        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Edit</a>
-        <a style="color: white !important; "id="deleteMealBtn" class="btn btn-danger" data-id="@Model!.Id" data-controller="Meals" data-action="Delete" data-body-message="@($"Are you sure you want to delete {Model.Name}?")" data-redirect-url="@("/Meals/Index")">Delete</a>
+        @if (this.User.GetId() == Model.AuthorId)
+        {
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Edit</a>
+            <a style="color: white !important;" id="deleteMealBtn" class="btn btn-danger" data-id="@Model!.Id" data-controller="Meals" data-action="Delete" data-body-message="@($"Are you sure you want to delete {Model.Name}?")" data-redirect-url="@("/Meals/Index")">Delete</a>
+        }
     </div>
 </section>

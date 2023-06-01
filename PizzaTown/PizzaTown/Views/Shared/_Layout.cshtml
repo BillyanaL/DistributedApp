@@ -39,18 +39,20 @@
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <div class="container">
             <a asp-controller="Home" asp-action="Index" class="navbar-brand"><span class="flaticon-pizza-1 mr-1"></span>Pizza<br><small>Town</small></a>
+            @if (this.User.Identity!.IsAuthenticated)
+            {
+                <div class="nav-item">Hello, @this.User.Identity.Name!</div>
+            }
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="oi oi-menu"></span> Menu
             </button>
             <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item @(currentPath == "/" ? "active" : "")"><a asp-controller="Home" asp-action="Index" class="nav-link">Home</a></li>
-                    <li class="nav-item @(currentPath == "/Home/About" ? "active" : "")"><a asp-controller="Home" asp-action="About" class="nav-link">About</a></li>
                     <li class="nav-item @(currentPath == "/Meals" ? "active" : "")"><a asp-controller="Meals" asp-action="Index" class="nav-link">Menu</a></li>
                     @if (this.User.Identity!.IsAuthenticated)
                     {
                         <li class="nav-item @(currentPath == "/Meals/Create" ? "active" : "")"><a asp-controller="Meals" asp-action="Create" class="nav-link">New Meal</a></li>
-                        <li class="nav-item @(currentPath.Contains("Logout") ? "active" : "")"><a asp-area="Identity" asp-page="/Account/Logout" class="nav-link">Hello, @this.User.Identity.Name</a></li>
                         <li class="nav-item @(currentPath.Contains("Logout") ? "active" : "")"><a asp-area="Identity" asp-page="/Account/Logout" class="nav-link">Logout</a></li>
                     }
                     else
