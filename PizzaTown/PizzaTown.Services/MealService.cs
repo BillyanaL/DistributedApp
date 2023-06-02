@@ -11,33 +11,41 @@ namespace PizzaTown.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly HttpClient _httpClient;
 
         public MealService(ApplicationDbContext context, IHttpClientFactory httpClientFactory)
         {
             _context = context;
             _httpClientFactory = httpClientFactory;
+            _httpClient = _httpClientFactory.CreateClient();
         }
 
         public async Task<IEnumerable<MealListingModel>> GetAll()
         {
-            var client = _httpClientFactory.CreateClient();
             var httpRequestMessage = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
                 RequestUri = new Uri("https://localhost:7119/api/MealsApi")
             };
 
-            var httpResponseMessage = await client.SendAsync(httpRequestMessage);
+            var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
             var resultAsString = await httpResponseMessage.Content.ReadAsStringAsync();
             var meals = JsonConvert.DeserializeObject<IEnumerable<MealListingModel>>(resultAsString)!.ToList();
 
             return meals;
         }
 
-        public async Task<Meal?> GetById(Guid id)
+        public async Task<MealDetailedModel?> GetById(Guid id)
         {
-            var meal = await _context.Meals.Include(x => x.Category)
-                .FirstOrDefaultAsync(x => x.Id == id);
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri($"https://localhost:7119/api/MealsApi/{id}")
+            };
+
+            var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
+            var resultAsString = await httpResponseMessage.Content.ReadAsStringAsync();
+            var meal = JsonConvert.DeserializeObject<MealDetailedModel>(resultAsString);
 
             return meal;
         }
@@ -74,10 +82,11 @@ namespace PizzaTown.Services
             return meal.Id;
         }
 
-        public async Task<bool> Delete(Meal meal)
+        public async Task<bool> Delete()
         {
-            _context.Meals.Remove(meal);
-            await _context.SaveChangesAsync();
+            //var entity =  await GetById(meal.Id);
+            //_context.Meals.Remove(entity);
+            //await _context.SaveChangesAsync();
             return true;
         }
     }

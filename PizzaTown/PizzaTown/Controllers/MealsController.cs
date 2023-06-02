@@ -38,8 +38,7 @@ namespace PizzaTown.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var mealDetailedModel = _mapper.Map<MealDetailedModel>(meal);
-            return View(mealDetailedModel);
+            return View(meal);
         }
 
         public async Task<ActionResult> Create()
@@ -101,7 +100,7 @@ namespace PizzaTown.Controllers
                 return NotFound();
             }
 
-            await _mealService.Edit(meal, model.Name, model.Description, model.ImageUrl, model.CategoryId, model.Price);
+            //await _mealService.Edit(meal, model.Name, model.Description, model.ImageUrl, model.CategoryId, model.Price);
 
             return RedirectToAction(nameof(Details), new { id = meal.Id });
         }
@@ -115,7 +114,7 @@ namespace PizzaTown.Controllers
                 return NotFound();
             }
 
-            await _mealService.Delete(meal);
+            await _mealService.Delete();
             return RedirectToAction(nameof(Index));
         }
     }

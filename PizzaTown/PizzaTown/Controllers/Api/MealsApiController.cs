@@ -26,7 +26,9 @@ namespace PizzaTown.Controllers.Api
         [HttpGet("{id}")]
         public async Task<ActionResult<Meal>> GetMeal(Guid id)
         {
-            var meal = await _context.Meals.FindAsync(id);
+            var meal = await _context.Meals
+                .Include(x => x.Category)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (meal == null)
             {
