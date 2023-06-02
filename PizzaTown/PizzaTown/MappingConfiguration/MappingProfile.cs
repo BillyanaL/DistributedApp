@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using PizzaTown.Data.Models;
-using PizzaTown.Models.Meals;
+using PizzaTown.Services.Models.Meals;
 
 namespace PizzaTown.MappingConfiguration
 {

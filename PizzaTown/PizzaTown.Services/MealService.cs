@@ -1,33 +1,35 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PizzaTown.Data;
 using PizzaTown.Data.Models;
+using System.Net.Http;
+using Newtonsoft.Json;
+using PizzaTown.Services.Models.Meals;
 
 namespace PizzaTown.Services
 {
     public class MealService
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public MealService(ApplicationDbContext context)
+        public MealService(ApplicationDbContext context, IHttpClientFactory httpClientFactory)
         {
             _context = context;
+            _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IEnumerable<Meal>> GetAll(string? category)
+        public async Task<IEnumerable<MealListingModel>> GetAll()
         {
-            List<Meal> meals;
+            var client = _httpClientFactory.CreateClient();
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("https://localhost:7119/api/MealsApi")
+            };
 
-            if (category == null)
-            {
-                meals = await _context.Meals.ToListAsync();
-            }
-            else
-            {
-                meals = await _context.Meals
-                    .Include(m => m.Category)
-                    .Where(m => m.Category.Name.ToLower() == category.ToLower())
-                    .ToListAsync();
-            }
+            var httpResponseMessage = await client.SendAsync(httpRequestMessage);
+            var resultAsString = await httpResponseMessage.Content.ReadAsStringAsync();
+            var meals = JsonConvert.DeserializeObject<IEnumerable<MealListingModel>>(resultAsString)!.ToList();
 
             return meals;
         }

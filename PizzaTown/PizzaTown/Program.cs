@@ -22,12 +22,15 @@ builder.Services.AddDefaultIdentity<IdentityUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 //builder.Services.AddScoped<RoleManager<Role>>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson();
 builder.Services.AddRazorPages();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddScoped<MealService>();
 builder.Services.AddScoped<CategoryService>();
+
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

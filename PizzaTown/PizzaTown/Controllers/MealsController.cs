@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PizzaTown.Data.Models;
 using PizzaTown.Infrastructure;
 using PizzaTown.Models;
-using PizzaTown.Models.Meals;
 using PizzaTown.Services;
+using PizzaTown.Services.Models.Meals;
 
 namespace PizzaTown.Controllers
 {
@@ -23,11 +22,10 @@ namespace PizzaTown.Controllers
             _categoryService = categoryService;
         }
 
-        public async Task<ActionResult> Index([FromQuery]string? category, int pageIndex = 1)
+        public async Task<ActionResult> Index(int pageIndex = 1)
         {
-            var meals = await _mealService.GetAll(category);
-            var mealListModels = _mapper.Map<IEnumerable<MealListingModel>>(meals);
-            var paginatedMeals = PaginatedList<MealListingModel>.Create(mealListModels, pageIndex, 6);
+            var meals = await _mealService.GetAll();
+            var paginatedMeals = PaginatedList<MealListingModel>.Create(meals, pageIndex, 6);
             return View(paginatedMeals);
         }
 
@@ -104,10 +102,10 @@ namespace PizzaTown.Controllers
             }
 
             await _mealService.Edit(meal, model.Name, model.Description, model.ImageUrl, model.CategoryId, model.Price);
-            
+
             return RedirectToAction(nameof(Details), new { id = meal.Id });
         }
-        
+
         public async Task<ActionResult> Delete(Guid id)
         {
             var meal = await _mealService.GetById(id);

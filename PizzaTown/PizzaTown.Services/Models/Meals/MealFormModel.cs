@@ -2,7 +2,7 @@
 using PizzaTown.Data.Models;
 using static PizzaTown.Data.Common.DataConstants;
 
-namespace PizzaTown.Models.Meals
+namespace PizzaTown.Services.Models.Meals
 {
     public class MealFormModel
     {

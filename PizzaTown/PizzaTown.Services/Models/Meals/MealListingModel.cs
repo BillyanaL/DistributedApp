@@ -1,4 +1,4 @@
-﻿namespace PizzaTown.Models.Meals
+﻿namespace PizzaTown.Services.Models.Meals
 {
     public class MealListingModel
     {
