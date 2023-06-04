@@ -78,25 +78,39 @@ namespace PizzaTown.Services
             return id;
         }
 
-        public async Task<Guid> Edit(Meal meal, string name, string description, string imageUrl, Guid categoryId,
+        public async Task<bool> Edit(Guid id, Meal meal, string name, string description, string imageUrl, Guid categoryId,
             decimal price)
         {
+
+            meal.Id = id;
             meal.Name = name;
             meal.Description = description;
             meal.ImageUrl = imageUrl;
             meal.CategoryId = categoryId;
             meal.Price = price;
 
-            await _context.SaveChangesAsync();
-            return meal.Id;
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Put,
+                RequestUri = new Uri($"https://localhost:7119/api/MealsApi/{id}"),
+                Content = JsonContent.Create(new { Id = id, Meal = meal })
+            };
+
+            var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
+            return httpResponseMessage.IsSuccessStatusCode;
         }
 
-        public async Task<bool> Delete()
+        public async Task<bool> Delete(Guid id)
         {
-            //var entity =  await GetById(meal.Id);
-            //_context.Meals.Remove(entity);
-            //await _context.SaveChangesAsync();
-            return true;
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Delete,
+                RequestUri = new Uri($"https://localhost:7119/api/MealsApi/{id}"),
+                Content = JsonContent.Create(id)
+            };
+
+            var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
+            return httpResponseMessage.IsSuccessStatusCode;
         }
     }
 }

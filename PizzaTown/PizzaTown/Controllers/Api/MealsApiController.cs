@@ -38,8 +38,8 @@ namespace PizzaTown.Controllers.Api
             return meal;
         }
         
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutMeal(Guid id, Meal meal)
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> PutMeal( Guid id, [FromBody] Meal meal)
         {
             if (id != meal.Id)
             {
@@ -74,7 +74,7 @@ namespace PizzaTown.Controllers.Api
             }
         }
         
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteMeal(Guid id)
         {
             var meal = await _context.Meals.FindAsync(id);
@@ -87,12 +87,7 @@ namespace PizzaTown.Controllers.Api
             _context.Meals.Remove(meal);
             await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
-
-        private bool MealExists(Guid id)
-        {
-            return (_context.Meals?.Any(e => e.Id == id)).GetValueOrDefault();
+            return Ok();
         }
     }
 }

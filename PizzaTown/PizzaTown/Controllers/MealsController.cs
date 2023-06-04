@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PizzaTown.Data.Models;
 using PizzaTown.Infrastructure;
 using PizzaTown.Models;
 using PizzaTown.Services;
@@ -101,7 +102,7 @@ namespace PizzaTown.Controllers
                 return NotFound();
             }
 
-            //await _mealService.Edit(meal, model.Name, model.Description, model.ImageUrl, model.CategoryId, model.Price);
+            await _mealService.Edit(id, meal, model.Name, model.Description, model.ImageUrl, model.CategoryId, model.Price);
 
             return RedirectToAction(nameof(Details), new { id = meal.Id });
         }
@@ -115,7 +116,7 @@ namespace PizzaTown.Controllers
                 return NotFound();
             }
 
-            await _mealService.Delete();
+            await _mealService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
     }
