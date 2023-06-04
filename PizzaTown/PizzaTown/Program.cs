@@ -21,7 +21,6 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
-//builder.Services.AddScoped<RoleManager<Role>>();
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson();
 builder.Services.AddRazorPages();
@@ -51,6 +50,11 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.MapControllerRoute(
     name: "default",

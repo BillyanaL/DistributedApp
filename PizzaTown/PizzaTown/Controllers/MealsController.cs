@@ -102,7 +102,7 @@ namespace PizzaTown.Controllers
                 return NotFound();
             }
 
-            await _mealService.Edit(id, meal, model.Name, model.Description, model.ImageUrl, model.CategoryId, model.Price);
+            await _mealService.Edit(id,  model);
 
             return RedirectToAction(nameof(Details), new { id = meal.Id });
         }

@@ -3,6 +3,7 @@ using PizzaTown.Data;
 using PizzaTown.Data.Models;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text;
 using Newtonsoft.Json;
 using PizzaTown.Services.Models.Meals;
 
@@ -78,22 +79,13 @@ namespace PizzaTown.Services
             return id;
         }
 
-        public async Task<bool> Edit(Guid id, Meal meal, string name, string description, string imageUrl, Guid categoryId,
-            decimal price)
+        public async Task<bool> Edit(Guid id, MealFormModel model)
         {
-
-            meal.Id = id;
-            meal.Name = name;
-            meal.Description = description;
-            meal.ImageUrl = imageUrl;
-            meal.CategoryId = categoryId;
-            meal.Price = price;
-
             var httpRequestMessage = new HttpRequestMessage
             {
                 Method = HttpMethod.Put,
                 RequestUri = new Uri($"https://localhost:7119/api/MealsApi/{id}"),
-                Content = JsonContent.Create(new { Id = id, Meal = meal })
+                Content = JsonContent.Create(model)
             };
 
             var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);

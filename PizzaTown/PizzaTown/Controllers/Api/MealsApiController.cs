@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PizzaTown.Data;
 using PizzaTown.Data.Models;
+using PizzaTown.Services.Models.Meals;
 
 namespace PizzaTown.Controllers.Api
 {
@@ -27,6 +28,7 @@ namespace PizzaTown.Controllers.Api
         public async Task<ActionResult<Meal>> GetMeal(Guid id)
         {
             var meal = await _context.Meals
+                .Include(x => x.Author)
                 .Include(x => x.Category)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -37,28 +39,33 @@ namespace PizzaTown.Controllers.Api
 
             return meal;
         }
-        
-        [HttpPut("{id:guid}")]
-        public async Task<IActionResult> PutMeal( Guid id, [FromBody] Meal meal)
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutMeal(Guid id, [FromBody] MealFormModel model)
         {
-            if (id != meal.Id)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest("Model state errors.");
             }
 
-            _context.Entry(meal).State = EntityState.Modified;
+            var meal = await _context.Meals.FirstOrDefaultAsync(x => x.Id == id);
 
-            try
+            if (meal == null)
             {
-                await _context.SaveChangesAsync();
-                return Ok();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                return BadRequest();
-            }
+
+            meal.Name = model.Name;
+            meal.Description = model.Description;
+            meal.ImageUrl = model.ImageUrl;
+            meal.CategoryId = model.CategoryId;
+            meal.Price = model.Price;
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
-        
+
         [HttpPost]
         public async Task<ActionResult<Meal>> PostMeal(Meal meal)
         {
@@ -73,7 +80,7 @@ namespace PizzaTown.Controllers.Api
                 return BadRequest();
             }
         }
-        
+
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteMeal(Guid id)
         {
