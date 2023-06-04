@@ -10,5 +10,7 @@
 
         public const double MinPrice = 0.1;
         public const double MaxPrice = 5000;
+
+        public const int MealsPerPage = 6;
     }
 }

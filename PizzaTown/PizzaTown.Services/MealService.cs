@@ -1,9 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PizzaTown.Data;
-using PizzaTown.Data.Models;
-using System.Net.Http;
+﻿using PizzaTown.Data.Models;
 using System.Net.Http.Json;
-using System.Text;
 using Newtonsoft.Json;
 using PizzaTown.Services.Models.Meals;
 
@@ -11,15 +7,12 @@ namespace PizzaTown.Services
 {
     public class MealService
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IHttpClientFactory _httpClientFactory;
+        private const string ApiBaseUrl = "https://localhost:7119/api/MealsApi";
         private readonly HttpClient _httpClient;
 
-        public MealService(ApplicationDbContext context, IHttpClientFactory httpClientFactory)
+        public MealService(IHttpClientFactory httpClientFactory)
         {
-            _context = context;
-            _httpClientFactory = httpClientFactory;
-            _httpClient = _httpClientFactory.CreateClient();
+            _httpClient = httpClientFactory.CreateClient();
         }
 
         public async Task<IEnumerable<MealListingModel>> GetAll()
@@ -27,7 +20,7 @@ namespace PizzaTown.Services
             var httpRequestMessage = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri("https://localhost:7119/api/MealsApi")
+                RequestUri = new Uri(ApiBaseUrl)
             };
 
             var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
@@ -42,7 +35,7 @@ namespace PizzaTown.Services
             var httpRequestMessage = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri($"https://localhost:7119/api/MealsApi/{id}")
+                RequestUri = new Uri($"{ApiBaseUrl}/{id}")
             };
 
             var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
@@ -68,7 +61,7 @@ namespace PizzaTown.Services
             var httpRequestMessage = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri("https://localhost:7119/api/MealsApi"),
+                RequestUri = new Uri($"{ApiBaseUrl}"),
                 Content = JsonContent.Create(meal)
             };
 
@@ -84,7 +77,7 @@ namespace PizzaTown.Services
             var httpRequestMessage = new HttpRequestMessage
             {
                 Method = HttpMethod.Put,
-                RequestUri = new Uri($"https://localhost:7119/api/MealsApi/{id}"),
+                RequestUri = new Uri($"{ApiBaseUrl}/{id}"),
                 Content = JsonContent.Create(model)
             };
 
@@ -97,7 +90,7 @@ namespace PizzaTown.Services
             var httpRequestMessage = new HttpRequestMessage
             {
                 Method = HttpMethod.Delete,
-                RequestUri = new Uri($"https://localhost:7119/api/MealsApi/{id}"),
+                RequestUri = new Uri($"{ApiBaseUrl}/{id}"),
                 Content = JsonContent.Create(id)
             };
 
