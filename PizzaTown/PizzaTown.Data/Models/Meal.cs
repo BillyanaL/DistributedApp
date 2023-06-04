@@ -19,12 +19,12 @@ namespace PizzaTown.Data.Models
         [Required] 
         public Guid CategoryId { get; set; } 
 
-        public Category Category { get; set; } = null!;
+        public Category? Category { get; set; } = null!;
 
 
         [Required]
         public string AuthorId { get; set; } = null!;
 
-        public IdentityUser Author { get; set; } = null!;
+        public IdentityUser? Author { get; set; } = null!;
     }
 }

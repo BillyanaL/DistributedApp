@@ -38,7 +38,8 @@ namespace PizzaTown.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(meal);
+            var mealDetailedModel = _mapper.Map<MealDetailedModel>(meal);
+            return View(mealDetailedModel);
         }
 
         public async Task<ActionResult> Create()

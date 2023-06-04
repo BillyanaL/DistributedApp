@@ -2,6 +2,7 @@
 using PizzaTown.Data;
 using PizzaTown.Data.Models;
 using System.Net.Http;
+using System.Net.Http.Json;
 using Newtonsoft.Json;
 using PizzaTown.Services.Models.Meals;
 
@@ -35,7 +36,7 @@ namespace PizzaTown.Services
             return meals;
         }
 
-        public async Task<MealDetailedModel?> GetById(Guid id)
+        public async Task<Meal?> GetById(Guid id)
         {
             var httpRequestMessage = new HttpRequestMessage
             {
@@ -45,7 +46,7 @@ namespace PizzaTown.Services
 
             var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
             var resultAsString = await httpResponseMessage.Content.ReadAsStringAsync();
-            var meal = JsonConvert.DeserializeObject<MealDetailedModel>(resultAsString);
+            var meal = JsonConvert.DeserializeObject<Meal>(resultAsString);
 
             return meal;
         }
@@ -63,10 +64,18 @@ namespace PizzaTown.Services
                 AuthorId = authorId
             };
 
-            await _context.Meals.AddAsync(meal);
-            await _context.SaveChangesAsync();
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri("https://localhost:7119/api/MealsApi"),
+                Content = JsonContent.Create(meal)
+            };
 
-            return meal.Id;
+            var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
+            var resultAsString = await httpResponseMessage.Content.ReadAsStringAsync();
+            var id = JsonConvert.DeserializeObject<Guid>(resultAsString);
+
+            return id;
         }
 
         public async Task<Guid> Edit(Meal meal, string name, string description, string imageUrl, Guid categoryId,
