@@ -1,21 +1,30 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PizzaTown.Data;
+﻿using Newtonsoft.Json;
 using PizzaTown.Data.Models;
 
 namespace PizzaTown.Services
 {
     public class CategoryService
     {
-        private readonly ApplicationDbContext _context;
+        private const string ApiBaseUrl = "https://localhost:7119/api/CategoriesApi";
+        private readonly HttpClient _httpClient;
 
-        public CategoryService(ApplicationDbContext context)
+        public CategoryService(IHttpClientFactory httpClientFactory)
         {
-            _context= context;
+            _httpClient = httpClientFactory.CreateClient();
         }
 
         public async Task<IEnumerable<Category>> GetAll()
         {
-            var categories = await _context.Categories.ToListAsync();
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(ApiBaseUrl)
+            };
+
+            var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
+            var resultAsString = await httpResponseMessage.Content.ReadAsStringAsync();
+            var categories = JsonConvert.DeserializeObject<IEnumerable<Category>>(resultAsString)!.ToList();
+
             return categories;
         }
     }
